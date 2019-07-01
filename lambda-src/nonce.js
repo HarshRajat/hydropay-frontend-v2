@@ -5,9 +5,10 @@ const wallet = new Wallet(process.env.REACT_APP_PRIVATE_KEY, provider);
 
 export async function handler(event) {
   try {
+    const nonce = await provider.getTransactionCount(wallet.address, 'latest');
     return {
       statusCode: 200,
-      body: JSON.stringify({nonce: await provider.getTransactionCount(wallet.address, 'latest')})
+      body: JSON.stringify({nonce: nonce})
     }
   } catch (error) {
     console.log(error);
