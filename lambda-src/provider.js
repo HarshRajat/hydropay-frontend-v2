@@ -1,19 +1,17 @@
-import { providers, Wallet } from 'ethers'
+import {providers, Wallet} from 'ethers'
 
 const provider = new providers.JsonRpcProvider(process.env.REACT_APP_INFURA_URL);
 const wallet = new Wallet(process.env.REACT_APP_PRIVATE_KEY, provider);
 const demoHelperAddress = process.env.REACT_APP_DEMOHELPER_ADDRESS.toLowerCase();
 const snowflakeAddress = process.env.REACT_APP_SNOWFLAKE_ADDRESS.toLowerCase();
 
-const ethers = require('ethers');
-
-export async function handler (event) {
+export async function handler(event) {
   try {
-    const { to, transactionData, nonce } = JSON.parse(event.body);
+    const {to, transactionData, nonce} = JSON.parse(event.body);
     if (to.toLowerCase() !== demoHelperAddress && to.toLowerCase() !== snowflakeAddress)
       return {
         statusCode: 403,
-        body: JSON.stringify({ message: "\"" + to + "\" address is forbidden" })
+        body: JSON.stringify({message: "\"" + to + "\" address is forbidden"})
       };
 
     const nonceTx = (!!nonce) ? nonce : await provider.getTransactionCount(wallet.address, 'latest');
@@ -48,13 +46,13 @@ export async function handler (event) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ transactionHash: transaction.hash })
+      body: JSON.stringify({transactionHash: transaction.hash})
     }
   } catch (error) {
     console.log(error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: error.toString() })
+      body: JSON.stringify({message: error.toString()})
     }
   }
 }
