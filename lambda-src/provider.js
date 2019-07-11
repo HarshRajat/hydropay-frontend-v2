@@ -39,7 +39,7 @@ export async function handler(event) {
       to: to,
       data: transactionData,
       nonce: nonceTx,
-      gasPrice: gasPrice,
+      //gasPrice: gasPrice,
     };
 
     const transaction = await wallet.sendTransaction(tx);
