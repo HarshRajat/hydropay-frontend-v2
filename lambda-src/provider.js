@@ -41,7 +41,7 @@ export async function handler(event) {
     }
 
     // Temporary increase gas
-    gasPrice = 5 * 1000000000; // 3 GWei
+    // gasPrice = 5 * 1000000000; // 3 GWei
 
     // The exact cost (in gas) to send to an Externally Owned Account (EOA)
     // let gasLimit = 21000;
@@ -50,7 +50,7 @@ export async function handler(event) {
       to: to,
       data: transactionData,
       nonce: nonceTx,
-      gasPrice: gasPrice,
+      //gasPrice: gasPrice,
     };
 
     const transaction = await wallet.sendTransaction(tx);
