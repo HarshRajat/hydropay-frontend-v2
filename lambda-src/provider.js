@@ -34,11 +34,14 @@ export async function handler(event) {
     // Normally we would let the Wallet populate this for us, but we
     // need to compute EXACTLY how much value to send
     let gasPrice = await provider.getGasPrice();
-    let maxGasPrice = 5 * 1000000000; // 5 GWei
+    let maxGasPrice = 3 * 1000000000; // 3 GWei
 
     if (gasPrice > maxGasPrice) {
       gasPrice = maxGasPrice;
     }
+
+    // Temporary increase gas
+    gasPrice = 5 * 1000000000; // 3 GWei
 
     // The exact cost (in gas) to send to an Externally Owned Account (EOA)
     // let gasLimit = 21000;
