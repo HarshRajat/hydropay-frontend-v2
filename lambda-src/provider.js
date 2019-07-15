@@ -34,10 +34,17 @@ export async function handler(event) {
     // Normally we would let the Wallet populate this for us, but we
     // need to compute EXACTLY how much value to send
     let gasPrice = await provider.getGasPrice();
+
+    // Increase it by 2
+    gasPrice = gasPrice * 2;
+
     let maxGasPrice = 3 * 1000000000; // 3 GWei
 
+    // Increase by 2 logic
+    maxGasPrice = 4 * 1000000000; // 4 GWei
+
     if (gasPrice > maxGasPrice) {
-      gasPrice = maxGasPrice;
+        gasPrice = maxGasPrice;
     }
 
     // Temporary increase gas
@@ -50,7 +57,7 @@ export async function handler(event) {
       to: to,
       data: transactionData,
       nonce: nonceTx,
-      //gasPrice: gasPrice,
+      gasPrice: gasPrice,
     };
 
     const transaction = await wallet.sendTransaction(tx);
