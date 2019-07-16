@@ -1,7 +1,6 @@
 import {providers, Wallet} from 'ethers'
 
 const provider = new providers.JsonRpcProvider(process.env.REACT_APP_INFURA_URL);
-const wallet = new Wallet(process.env.REACT_APP_PRIVATE_KEY, provider);
 const demoHelperAddress = process.env.REACT_APP_DEMOHELPER_ADDRESS.toLowerCase();
 const snowflakeAddress = process.env.REACT_APP_SNOWFLAKE_ADDRESS.toLowerCase();
 const allowedIPs = process.env.REACT_APP_ALLOWED_IPS.split(",");
@@ -12,16 +11,29 @@ export async function handler(event) {
     if (allowedIPs.indexOf(ip) === -1)
       return {
         statusCode: 401,
-        body: JSON.stringify({message: "\"" + ip + "\" address is forbidden"})
+        body: JSON.stringify({message: "\"" + ip + "\" address is unauthorized"})
       };
 
-    const {to, transactionData, nonce} = JSON.parse(event.body);
+    const {to, transactionData, nonce, wallet_id} = JSON.parse(event.body);
     if (to.toLowerCase() !== demoHelperAddress && to.toLowerCase() !== snowflakeAddress)
       return {
         statusCode: 403,
         body: JSON.stringify({message: "\"" + to + "\" address is forbidden"})
       };
 
+    if (isNaN(wallet_id) || wallet_id <= 0 || wallet_id > process.env.REACT_APP_PRIVATE_KEY_COUNT)
+      return {
+        statusCode: 403,
+        body: JSON.stringify({message: "\"" + wallet_id + "\" is forbidden"})
+      };
+    const pkey = process.env["REACT_APP_PRIVATE_KEY_" + wallet_id];
+    if (pkey === undefined)
+      return {
+        statusCode: 403,
+        body: JSON.stringify({message: "\"" + wallet_id + "\" is forbidden"})
+      };
+
+    const wallet = new Wallet(pkey, provider);
     const nonceTx = (!!nonce) ? nonce : await provider.getTransactionCount(wallet.address, 'latest');
 
     // provider.getGasPrice().then((gasPrice) => {
