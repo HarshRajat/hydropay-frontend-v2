@@ -38,10 +38,11 @@ export async function handler(event) {
     // Increase it by 2
     gasPrice = gasPrice * 2;
 
-    let maxGasPrice = 3 * 1000000000; // 3 GWei
-
     // Increase by 2 logic
-    maxGasPrice = 4 * 1000000000; // 4 GWei
+    //let maxGasPrice = 4 * 1000000000; // 4 GWei
+    let maxGasPrice = 25 * 1000000000; // 25 GWei
+
+    // let maxGasPrice = 3 * 1000000000; // 3 GWei
 
     if (gasPrice > maxGasPrice) {
         gasPrice = maxGasPrice;
