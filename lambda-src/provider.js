@@ -51,7 +51,7 @@ export async function handler(event) {
     gasPrice = gasPrice * 2;
 
     // Increase by 2 logic
-    //let maxGasPrice = 4 * 1000000000; // 4 GWei
+    //let maxGasPrice = 4 * 1000000000; // 4 GWei //
     let maxGasPrice = 25 * 1000000000; // 25 GWei
 
     // let maxGasPrice = 3 * 1000000000; // 3 GWei
